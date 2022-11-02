@@ -1,9 +1,17 @@
-import { MD_FILE_DIR } from "@/constpack";
-import fs from "fs";
-import matter from "gray-matter";
+import { MD_FILE_DIR } from '@/constpack';
+import fs from 'fs';
+import matter from 'gray-matter';
 
-type SingleMDFile = { slug: string; frontmatter: object };
-type MdFileContent = {
+export type FrontMatter = {
+  title: string;
+  metaTitle: string;
+  metaDesc: string;
+  socialImage: string;
+  date: string;
+  tags: string[];
+};
+export type SingleMDFile = { slug: string; frontmatter: object };
+export type MdFileContent = {
   [key: string]: SingleMDFile[];
 };
 
@@ -20,11 +28,11 @@ export default async () => {
     const mdFiles = fs.readdirSync(dirToMDFiles);
 
     const allContentsByCategory = mdFiles.map((fileName) => {
-      const slug = fileName.replace(".md", "");
+      const slug = fileName.replace('.md', '');
       const pathToFile = `${dirToMDFiles}/${fileName}`;
 
       // Read markdown file contents
-      const readFile = fs.readFileSync(pathToFile, "utf-8");
+      const readFile = fs.readFileSync(pathToFile, 'utf-8');
       const { data: frontmatter } = matter(readFile);
 
       return { slug, frontmatter };
