@@ -1,15 +1,11 @@
-import { MDFileReader } from '@/utils';
+import { MDFileReader } from "@/utils";
 
-const readMDfiles = async () => {
-  const files = await MDFileReader();
-
-  return files;
-};
+const readMDfiles = async () => await MDFileReader();
 
 export default async function Page() {
   const files = await readMDfiles();
 
-  console.log('files', files.algorithm[0].frontmatter);
+  console.log("files", files);
 
-  return <h1>Hello, Next.js!</h1>;
+  return <h1></h1>;
 }
