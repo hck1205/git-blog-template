@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -20,12 +16,9 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/utils": [
-        "utils"
-      ],
-      "@/constpack": [
-        "constpack"
-      ]
+      "@/utils": ["utils"],
+      "@/constpack": ["constpack"],
+      "@/stores": ["stores"]
     },
     "plugins": [
       {
@@ -33,13 +26,6 @@
       }
     ]
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }

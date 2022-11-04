@@ -15,7 +15,7 @@ export type MdFileContent = {
   [key: string]: SingleMDFile[];
 };
 
-export default async () => {
+export const readAllMDFiles = async () => {
   // Read director files in PATH_TO_MD_FILE_DIR
   const categories = fs.readdirSync(MD_FILE_DIR);
 

@@ -1,11 +1,13 @@
-import { MDFileReader } from "@/utils";
+import { useMDFileStore } from "stores";
+import { readAllMDFiles } from "@/utils";
 
-const readMDfiles = async () => await MDFileReader();
+const readMDfiles = async () => await readAllMDFiles();
 
 export default async function Page() {
+  const { setAllMDFiles } = useMDFileStore((state) => state);
   const files = await readMDfiles();
 
-  console.log("files", files);
+  // setAllMDFiles(files);
 
   return <h1></h1>;
 }
