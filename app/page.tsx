@@ -1,13 +1,11 @@
-import { useMDFileStore } from "stores";
-import { readAllMDFiles } from "@/utils";
+import { useMDFileStore } from '@/stores';
+import { readAllMDFiles } from '@/utils';
+import { useEffect } from 'react';
 
-const readMDfiles = async () => await readAllMDFiles();
+export default async function Page(props: any) {
+  // const { allMDFiles, setAllMDFiles } = useMDFileStore((state) => state);
 
-export default async function Page() {
-  const { setAllMDFiles } = useMDFileStore((state) => state);
-  const files = await readMDfiles();
-
-  // setAllMDFiles(files);
+  console.log('props', props);
 
   return <h1></h1>;
 }

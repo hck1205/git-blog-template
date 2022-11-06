@@ -1,6 +1,5 @@
-import create from "zustand";
-import type { MdFileContent } from "@/utils";
-import { readAllMDFiles } from "@/utils";
+import create from 'zustand';
+import type { MdFileContent } from '@/utils';
 
 type MDFilesState = {
   allMDFiles: MdFileContent;
@@ -9,5 +8,6 @@ type MDFilesState = {
 
 export const useMDFileStore = create<MDFilesState>((set) => ({
   allMDFiles: {},
-  setAllMDFiles: (allMDFiles: MdFileContent) => set({ allMDFiles }),
+  setAllMDFiles: (allMDFiles: MdFileContent) =>
+    set(() => ({ allMDFiles: allMDFiles })),
 }));
