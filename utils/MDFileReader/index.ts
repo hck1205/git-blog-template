@@ -1,6 +1,6 @@
-import { MD_FILE_DIR } from '@/constpack';
-import fs from 'fs';
-import matter from 'gray-matter';
+import { MD_FILE_DIR } from "@/constpack";
+import fs from "fs";
+import matter from "gray-matter";
 
 export type FrontMatter = {
   title: string;
@@ -10,10 +10,32 @@ export type FrontMatter = {
   date: string;
   tags: string[];
 };
-// export type SingleMDFile = { slug: string; frontmatter: FrontMatter };
+
+export type SingleMDFile = { slug: string; frontmatter: FrontMatter };
+
 export type MdFileContent = {
-  // [key: string]: SingleMDFile[];
-  [key: string]: string[];
+  [key: string]: SingleMDFile[];
+  // [key: string]: string[];
+};
+
+const readMDFileContent = ({
+  category = "",
+  fileName,
+}: {
+  category: string;
+  fileName: string;
+}) => {
+  const pathToFile = category
+    ? `${MD_FILE_DIR}/${category}/${fileName}`
+    : `${MD_FILE_DIR}/${fileName}`;
+
+  const slug = fileName.replace(".md", "");
+
+  // Read markdown file contents
+  const readFile = fs.readFileSync(pathToFile, "utf-8");
+  const { data } = matter(readFile);
+
+  return { slug, frontmatter: data as FrontMatter };
 };
 
 export const readAllFilePaths = async () => {
@@ -27,36 +49,33 @@ export const readAllFilePaths = async () => {
   categories
     .filter((file) => {
       // filter files are not directory.
-      const isMDFile = file.endsWith('.md');
+      const isMDFile = file.endsWith(".md");
       const isDirectory = fs.lstatSync(`${MD_FILE_DIR}/${file}`).isDirectory();
 
       return isDirectory || isMDFile;
     })
     .forEach((category) => {
-      const isMDFile = category.endsWith('.md');
+      const isMDFile = category.endsWith(".md");
 
       if (isMDFile) {
-        const fileName = category.replace('.md', '');
-        mdFileMap['noCategory'].push(fileName);
+        // if isMDFile, category is the fileName
+        const singleMDFile = readMDFileContent({
+          category: "",
+          fileName: category,
+        });
+
+        mdFileMap["noCategory"].push(singleMDFile);
       } else {
         const dirToMDFiles = `${MD_FILE_DIR}/${category}`;
 
-        // Read all markdown files in CATEGORY folder
+        // Read all markdown files in [CATEGORIZED] folder
         const mdFiles = fs
           .readdirSync(dirToMDFiles)
-          .filter((fileName) => fileName.indexOf('.md') > -1); // filter files are not markdown files.
+          .filter((fileName) => fileName.indexOf(".md") > -1); // filter files are not markdown files.
 
-        const allContentsByCategory = mdFiles.map((fileName) => {
-          const slug = fileName.replace('.md', '');
-          // const pathToFile = `${dirToMDFiles}/${fileName}`;
-
-          // Read markdown file contents
-          // const readFile = fs.readFileSync(pathToFile, 'utf-8');
-          // const { data } = matter(readFile);
-          // return { slug, frontmatter: data as FrontMatter };
-
-          return slug;
-        });
+        const allContentsByCategory = mdFiles.map((fileName) =>
+          readMDFileContent({ category, fileName })
+        );
 
         mdFileMap[category] = allContentsByCategory;
       }
@@ -77,7 +96,7 @@ export const readSingleMDFile = async ({
       ? `${MD_FILE_DIR}/${category}/${fileName}.md`
       : `${MD_FILE_DIR}/${category}.md`;
 
-    return await fs.readFileSync(pathToFile, 'utf8');
+    return await fs.readFileSync(pathToFile, "utf8");
   } catch (e) {
     console.error(e);
   }
