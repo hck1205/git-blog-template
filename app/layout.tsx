@@ -1,15 +1,33 @@
-import { readAllFilePaths } from "@/utils";
 import { use } from "react";
 
-const readMDfiles = async () => await readAllFilePaths();
+import {
+  fetchAllMDFilesFrontMatter,
+  // SingleMDFile,
+  // capitalizeFirstLetter,
+} from "@/utils";
+
+const getAllMDFilesFrontMatter = async () => await fetchAllMDFilesFrontMatter();
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // const { allMDFiles, setAllMDFiles } = useMDFileStore((state) => state);
-  const allFilePaths = use(readMDfiles());
+  const allMDFilesFrontMatter = use(getAllMDFilesFrontMatter());
+  // setAllFrontMatter(allMDFilesFrontMatter);
+
+  // console.log("allFrontMatter", allFrontMatter);
+
+  // const getListOfTitles = () => {
+  //   Object.entries(allMDFiles).forEach(
+  //     ([key, value]: [key: string, value: SingleMDFile[]]) => {
+  //       const category = CATEGORY_TITLE[key] || capitalizeFirstLetter(key);
+
+  //       console.log("category", category);
+  //     }
+  //   );
+  // };
+  // getListOfTitles();
 
   return (
     <html>

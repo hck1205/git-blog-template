@@ -18,7 +18,7 @@ export type MdFileContent = {
   // [key: string]: string[];
 };
 
-const readMDFileContent = ({
+const getFrontMatter = ({
   category = "",
   fileName,
 }: {
@@ -38,7 +38,7 @@ const readMDFileContent = ({
   return { slug, frontmatter: data as FrontMatter };
 };
 
-export const readAllFilePaths = async () => {
+export const fetchAllMDFilesFrontMatter = async () => {
   // Read director files in PATH_TO_MD_FILE_DIR
   const categories = fs.readdirSync(MD_FILE_DIR);
 
@@ -59,7 +59,7 @@ export const readAllFilePaths = async () => {
 
       if (isMDFile) {
         // if isMDFile, category is the fileName
-        const singleMDFile = readMDFileContent({
+        const singleMDFile = getFrontMatter({
           category: "",
           fileName: category,
         });
@@ -74,7 +74,7 @@ export const readAllFilePaths = async () => {
           .filter((fileName) => fileName.indexOf(".md") > -1); // filter files are not markdown files.
 
         const allContentsByCategory = mdFiles.map((fileName) =>
-          readMDFileContent({ category, fileName })
+          getFrontMatter({ category, fileName })
         );
 
         mdFileMap[category] = allContentsByCategory;
@@ -96,7 +96,10 @@ export const readSingleMDFile = async ({
       ? `${MD_FILE_DIR}/${category}/${fileName}.md`
       : `${MD_FILE_DIR}/${category}.md`;
 
-    return await fs.readFileSync(pathToFile, "utf8");
+    const readFile = await fs.readFileSync(pathToFile, "utf-8");
+    const { data, content } = matter(readFile);
+
+    return { data, content };
   } catch (e) {
     console.error(e);
   }

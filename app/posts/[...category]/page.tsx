@@ -1,5 +1,7 @@
-import { use } from 'react';
-import { readSingleMDFile, readAllFilePaths } from 'utils/MDFileReader';
+import { use } from "react";
+import ReactMarkdown from "react-markdown";
+
+import { readSingleMDFile } from "@/utils";
 
 const readMDFile = async ({
   category,
@@ -9,10 +11,6 @@ const readMDFile = async ({
   fileName: string;
 }) => await readSingleMDFile({ category, fileName });
 
-const readAllFiles = async () => {
-  return await readAllFilePaths();
-};
-
 export default function PostPageByCategory({
   params,
 }: {
@@ -20,8 +18,12 @@ export default function PostPageByCategory({
 }) {
   const [category, fileName] = params.category;
 
-  const file = use(readMDFile({ category, fileName }));
-  const allFiles = use(readAllFiles());
+  const mdFile = use(readMDFile({ category, fileName }));
 
-  return <p>Category: </p>;
+  if (mdFile) {
+    const { data, content } = mdFile;
+    return <div>{<ReactMarkdown children={content}></ReactMarkdown>}</div>;
+  } else {
+    return null;
+  }
 }
