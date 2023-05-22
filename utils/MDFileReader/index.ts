@@ -1,22 +1,10 @@
-import { MD_FILE_DIR } from "@/constpack";
+import { CATEGORY_TITLE, MD_FILE_DIR } from "@/constpack";
 import fs from "fs";
 import matter from "gray-matter";
 
-export type FrontMatter = {
-  title: string;
-  metaTitle: string;
-  metaDesc: string;
-  socialImage: string;
-  date: string;
-  tags: string[];
-};
+import type { FrontMatter, MdFileContent } from "./types";
 
-export type SingleMDFile = { slug: string; frontmatter: FrontMatter };
-
-export type MdFileContent = {
-  [key: string]: SingleMDFile[];
-  // [key: string]: string[];
-};
+const { EMPTY_CATEGORY } = CATEGORY_TITLE;
 
 const getFrontMatter = ({
   category = "",
@@ -43,7 +31,7 @@ export const fetchAllMDFilesFrontMatter = async () => {
   const categories = fs.readdirSync(MD_FILE_DIR);
 
   let mdFileMap: MdFileContent = {
-    noCategory: [],
+    [EMPTY_CATEGORY]: [],
   };
 
   categories
@@ -64,7 +52,7 @@ export const fetchAllMDFilesFrontMatter = async () => {
           fileName: category,
         });
 
-        mdFileMap["noCategory"].push(singleMDFile);
+        mdFileMap[EMPTY_CATEGORY].push(singleMDFile);
       } else {
         const dirToMDFiles = `${MD_FILE_DIR}/${category}`;
 

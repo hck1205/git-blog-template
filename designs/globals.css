@@ -23,3 +23,17 @@ a {
     background: #1c1f2b;
   }
 }
+
+.text-style-pop-over {
+  padding-top: 0;
+}
+
+.text-style-pop-over > .ant-popover-content > .ant-popover-inner {
+  border-radius: 0;
+  background-color: #2d3143;
+  padding: 0;
+}
+
+.text-style-pop-over > .ant-popover-content > .ant-popover-arrow::before {
+  background-color: #2d3143;
+}

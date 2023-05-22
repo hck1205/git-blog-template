@@ -14,22 +14,17 @@ type Props = {
 function Main({ children, allFrontMatter }: Props) {
   const [isMenuActive, setMenuActive] = useState<boolean>(true);
 
-  useEffect(() => {
-    console.log("component mount");
-    console.log("test", allFrontMatter);
-  }, []);
-
   return (
     <ComponentWrapper isMenuActive={isMenuActive}>
-      <SideMenu isActive={isMenuActive} />
+      <SideMenu isActive={isMenuActive} allFrontMatter={allFrontMatter} />
       <Header
         toggleMenu={() => setMenuActive(!isMenuActive)}
         isMenuActive={isMenuActive}
       />
 
-      <div className="header">Header</div>
+      <div className="header"></div>
       <div className="body">{children}</div>
-      <div className="footer">Footer</div>
+      <div className="footer"></div>
     </ComponentWrapper>
   );
 }

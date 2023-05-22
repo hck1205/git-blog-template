@@ -5,5 +5,5 @@
 export default async function Page(props: any) {
   // const { allMDFiles, setAllMDFiles } = useMDFileStore((state) => state);
 
-  return <h1></h1>;
+  return <h1>1</h1>;
 }

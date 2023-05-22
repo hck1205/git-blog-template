@@ -20,8 +20,11 @@ export default function PostPageByCategory({
 
   const mdFile = use(readMDFile({ category, fileName }));
 
+  console.log("mdFile", mdFile);
+
   if (mdFile) {
     const { data, content } = mdFile;
+    console.log("data", data);
     return <div>{<ReactMarkdown children={content}></ReactMarkdown>}</div>;
   } else {
     return null;

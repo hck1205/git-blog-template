@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html>
       <head>
-        <title>Create Next App</title>
+        <title>Git book like blog</title>
         <meta name="description" content="Git Blog" />
         <link rel="icon" href="/favicon.ico" />
       </head>
